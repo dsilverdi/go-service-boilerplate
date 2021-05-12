@@ -1,0 +1,17 @@
+version: '3'
+services:
+  go-service-db:
+    image: mysql
+    ports:
+      - "3306:3306"
+  go-service-rest:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        - revisionID=${REVISION_ID:-unknown}
+        - buildTimestamp=${BUILD_TIMESTAMP:-unknown}
+    ports:
+      - 18080:8080
+    volumes:
+      - "./etc/system:/etc/appname/env"
